@@ -54,7 +54,7 @@ class DifftWsListener:
             rel.signal(2, rel.abort)  # Keyboard Interrupt
             rel.dispatch()
         except Exception as e:
-            logging.error("[DifftWsListener] got error: {}".format(e))
+            logging.error("[DifftWsListener] got error: {}, my appid: {}".format(e, self._appid))
             # retry in 15 sec
             logging.info("[DifftWsListener] will retry in 15 seconds")
             time.sleep(15)
@@ -72,7 +72,7 @@ class DifftWsListener:
         self.fetch(ws)
     
     def on_error(self, ws, error):
-        logging.error("[DifftWsListener] websocket error {}".format(error))
+        logging.error("[DifftWsListener] websocket error {}, my appid: {}".format(error, self._appid))
 
     def on_close(self, ws, close_status_code, close_msg):
         logging.info('[DifftWsListener] on_close, code {}, reason {}'.format(close_status_code, close_msg))
