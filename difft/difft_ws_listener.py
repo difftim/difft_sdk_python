@@ -54,7 +54,7 @@ class DifftWsListener:
             rel.signal(2, rel.abort)  # Keyboard Interrupt
             rel.dispatch()
         except Exception as e:
-            logging.error("[DifftWsListener] got error: {}".format(e))
+            logging.error("[DifftWsListener] got error: {}, my appid: {}".format(e, self._appid))
             # retry in 15 sec
             logging.info("[DifftWsListener] will retry in 15 seconds")
             time.sleep(15)
@@ -72,14 +72,23 @@ class DifftWsListener:
         self.fetch(ws)
     
     def on_error(self, ws, error):
-        logging.error("[DifftWsListener] websocket error {}".format(error))
+        logging.error("[DifftWsListener] websocket error {}, my appid: {}".format(error, self._appid))
+        self.ws.close()
+        time.sleep(15)
+        rel.abort()
+        self.start()
 
     def on_close(self, ws, close_status_code, close_msg):
         logging.info('[DifftWsListener] on_close, code {}, reason {}'.format(close_status_code, close_msg))
         if close_status_code == 1008:
             logging.warn("[DifftWsListener] close code is 1008, stop listening")
             rel.abort()
-        logging.info('[DifftWsListener] on_close, will retry connection later')
+        else:
+            logging.info('[DifftWsListener] on_close, will retry connection later')
+            self.ws.close()
+            time.sleep(15)
+            rel.abort()
+            self.start()
 
     def on_open(self, ws):
         logging.info('[DifftWsListener] websocket connected')
@@ -91,6 +100,7 @@ class DifftWsListener:
         ws.send("{\"cmd\":\"fetch\"}")
     
     def close(self):
+        self.ws.send("{\"cmd\":\"commit\"}")
         rel.abort()
         self.ws.close()
 
