@@ -179,7 +179,30 @@ message = MessageRequestBuilder() \
     .build()
 difft_client.send_message(message)
 ```
+### Send Markdown/card
+```python
+from difft.client import DifftClient
+from difft.message import MessageRequestBuilder
+from difft.attachment import AttachmentBuilder
 
+APP_ID = "f250845b274f4a5c01"
+APP_SECRET = "w0m6nTOIIspxR0wmGJbEvAOfNnyf"
+BOT_ID="+60000"
+
+# using testing environment by default
+difft_client = DifftClient(APP_ID, APP_SECRET)
+# production environment
+# difft_client = DifftClient(APP_ID, APP_SECRET, "https://xxx.com")
+
+# send message 
+message = MessageRequestBuilder() \
+            .sender("+21112") \
+            .to_user(["+70985684427"]) \
+            .card(APPID, "1111", "### header") \
+            .timestamp_now() \
+            .build()
+difft_client.send_message(message)
+```
 ### Send image
 ```python
 import time
