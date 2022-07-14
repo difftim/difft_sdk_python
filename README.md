@@ -100,6 +100,17 @@ message = MessageRequestBuilder()                         \
             .sender(BOT_ID)                               \
             .to_group("a9de6b3ae8c8456d888c4532b487e822") \
             .message("hello, this is a test message")     \
+            .timestamp_now()                              \
+            .build()
+difft_client.send_message(message)
+
+# send message to group and @someone
+# make sure message body include text `@username_you_want_to_at`
+# e.g. Allen(+76459652574)
+message = MessageRequestBuilder()                         \
+            .sender(BOT_ID)                               \
+            .to_group("a9de6b3ae8c8456d888c4532b487e822") \
+            .message("@Allen hello, this is a test message")     \
             .at_user(["+76459652574"])                    \
             .timestamp_now()                              \
             .build()
@@ -110,12 +121,35 @@ message = MessageRequestBuilder()                         \
             .sender(BOT_ID)                               \
             .to_group("a9de6b3ae8c8456d888c4532b487e822") \
             .message("hello, this is a test message")     \
-            .at_user(["+76459652574"])                    \
             .quote("refID", "text")                       \
             .timestamp_now()                              \
             .build()
 difft_client.send_message(message)
+```
+### Recall message
 
+```python
+import time
+
+message = MessageRequestBuilder()                          \
+    .sender(BOT_ID)                                        \
+    .to_user(["+76459652574"])                             \
+    .message("hello, this is a test message")              \
+    .timestamp_now()                                       \
+    .build()
+
+difft_client.send_message(message)
+
+time.sleep(10)
+
+recall_message = MessageRequestBuilder()                   \
+    .sender(BOT_ID)                                        \
+    .to_user(["+76459652574"])                             \
+    .recall(BOT_ID, message.get('timestamp'))              \
+    .timestamp_now()                                       \
+    .build()
+
+difft_client.send_message(recall_message)
 ```
 ### Send attachment
 ```python
