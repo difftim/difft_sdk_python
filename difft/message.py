@@ -64,6 +64,11 @@ class MessageRequestBuilder:
         self.message_request['type'] = msg_type
         return self
 
+    def recall(self, source, timestamp):
+        self.message_request['type'] = 'RECALL'
+        self.message_request['recall'] = dict(realSource=dict(source=source, sourceDevice=1, timestamp=timestamp))
+        return self
+
     def card(self, appid, id, content,fixedWidth=False, creator=None, timestamp=None):
         self.message_request['type'] = 'CARD'
         self.message_request['card'] = dict(appID=appid, id=id, content=content)
