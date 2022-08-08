@@ -214,6 +214,7 @@ message = MessageRequestBuilder() \
 difft_client.send_message(message)
 ```
 ### Send Markdown/card
+Currently supported types are [type](mdtype.txt):
 ```python
 from difft.client import DifftClient
 from difft.message import MessageRequestBuilder
