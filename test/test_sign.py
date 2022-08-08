@@ -96,3 +96,8 @@ class TestSign(unittest.TestCase):
         data = json.loads(resp.text)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(data.get("status", -1), 0)  # file no permission
+
+    def test_oauth_user_info(self):
+        url = "https://openapi.test.difft.org/v1/oauth/getUserInfo"
+        resp = requests.get(url=url, params={"columns": "name,email"}, headers={"Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzUxMiJ9.eyJ1aWQiOiIrNzIyNDA1NDM5MDMiLCJ2ZXIiOjEsImFwcGlkIjoiYTE0Y2EwMzljNjY3MTc5Y2RjIiwic2NvcGUiOlsiTmFtZVJlYWQiLCJFbWFpbFJlYWQiXSwiZXhwIjoxNjYwMDM4OTQ0LCJpYXQiOjE2NTk5NTI1NDQsImRpZCI6MX0.Af3AJ6ugGTj26VzqMefZJg-vdNoNjiMQHw8Fi8EvR1HmFbCUO8FgKJ1EpoWjMVRrQBggrfxr7iw51lGZU6YnB16hAOww5IgziiehdWRMjmmy9vja8iK7OCEq1TXGttghwzKtrqaXRTu1v00o_M65vaMNkFE9XOzHelA2pmUTvxxHqeOZ"},auth=self.my_auth)
+        print(resp.text)

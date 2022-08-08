@@ -338,6 +338,25 @@ listener = DifftWsListener(APPID, APPSECRET)
 listener.handler(customized_handler)
 listener.start()
 ```
+## Customized API
+There are some server APIs in [here](https://documenter.getpostman.com/view/14311359/UVREmkXq#intro), but not supported in sdk.   
+You can try to invoke the server API directly, see [demo](https://documenter.getpostman.com/view/14311359/UVREmkXq#0d92104a-018f-47e2-a393-4bbc3b004e59) below
+
+```python
+import requests
+from difft.auth import Authenticator
+
+APPID = "f250845b274f4a5c01"
+APPSECRET = "w0m6nTOIIspxR0wmGJbEvAOfNnyf"
+
+my_auth = Authenticator(appid=APPID, key=APPSECRET.encode("utf-8"))
+
+token = "user access token"
+url = "https://openapi.test.difft.org/v1/oauth/getUserInfo"
+resp = requests.get(url=url, params={"columns": "name,email"}, headers={"Authorization": token},auth=self.my_auth)
+print(resp.text)
+```
+
 ## Run test
 ```shell
 python3 -m unittest discover
