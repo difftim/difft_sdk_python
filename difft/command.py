@@ -63,7 +63,7 @@ def send_card(args):
         message = MessageRequestBuilder()                                   \
             .sender(botid)                                                  \
             .to_user(args.user.split(','))                                  \
-            .card(appid, args.id,  args.content, args.fixedWidth, args.creator, args.ts)      \
+            .card(appid, args.id,  args.content, False, args.creator, args.ts)      \
             .build()
     else:
         raise Exception('please specify user or group')
