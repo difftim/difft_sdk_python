@@ -13,7 +13,7 @@ class TestRecall(unittest.TestCase):
     def test_send_msg_to_user(self):
         message = MessageRequestBuilder() \
             .sender("+60000") \
-            .to_user(["+71830250571"]) \
+            .to_user(["+76459652574"]) \
             .card(APPID, "1111", "### header") \
             .timestamp_now() \
             .build()
@@ -24,7 +24,7 @@ class TestRecall(unittest.TestCase):
 
         recall_msg = MessageRequestBuilder() \
             .sender("+60000") \
-            .to_user(["+71830250571"]) \
+            .to_user(["+76459652574"]) \
             .recall("+60000", message.get("timestamp")) \
             .timestamp_now() \
             .build()
