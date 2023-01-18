@@ -237,6 +237,14 @@ message = MessageRequestBuilder() \
             .timestamp_now() \
             .build()
 difft_client.send_message(message)
+
+message_height = MessageRequestBuilder() \
+            .sender("+21112") \
+            .to_user(["+70985684427"]) \
+            .card(APPID, "1111", "### header", height=60) \
+            .timestamp_now() \
+            .build()
+difft_client.send_message(message_height)
 ```
 ### Send image
 ```python
