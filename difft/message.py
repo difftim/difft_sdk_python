@@ -69,7 +69,7 @@ class MessageRequestBuilder:
         self.message_request['recall'] = dict(realSource=dict(source=source, sourceDevice=1, timestamp=timestamp), refID=refID)
         return self
 
-    def card(self, appid, id, content,fixedWidth=False, creator=None, timestamp=None):
+    def card(self, appid, id, content,fixedWidth=False, creator=None, timestamp=None, height=None):
         self.message_request['type'] = 'CARD'
         self.message_request['card'] = dict(appID=appid, id=id, content=content)
         if fixedWidth:
@@ -78,6 +78,8 @@ class MessageRequestBuilder:
             self.message_request['card']['creator'] = creator
         if timestamp:
             self.message_request['card']['timestamp'] = timestamp
+        if height:
+            self.message_request['card']['height'] = height
         return self
 
     def build(self):
