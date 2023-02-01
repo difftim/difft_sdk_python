@@ -82,6 +82,11 @@ class MessageRequestBuilder:
             self.message_request['card']['height'] = height
         return self
 
+    def forwarded(self, forwarded):
+        self.message_request['type'] = 'FORWARD'
+        self.message_request['forwarded'] = forwarded
+        return self
+
     def build(self):
         return self.message_request
 

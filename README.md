@@ -336,6 +336,13 @@ def customized_handler(msg):
                 .message(msg.get('msg').get('body')) \
                 .build()
         difft_client.send_message(message)
+    elif msg.get('type')=='FORWARD':
+        message = MessageRequestBuilder() \
+                .sender(BOTID)          \
+                .to_group("you_goup_id")   \
+                .forwarded(msg.get("forwarded"))\
+                .build()
+        difft_client.send_message(message)
 
 # testing env
 listener = DifftWsListener(APPID, APPSECRET)
