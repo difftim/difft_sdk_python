@@ -1,6 +1,8 @@
 # Difft-sdk-python
+
 ## Python Version
 python requires >= 3.6
+
 ## Interface
 * send_message
 * get_account_by_email
@@ -213,8 +215,10 @@ message = MessageRequestBuilder() \
     .build()
 difft_client.send_message(message)
 ```
+
 ### Send Markdown/card
 Currently supported types are [type](mdtype.txt):
+
 ```python
 from difft.client import DifftClient
 from difft.message import MessageRequestBuilder
@@ -233,7 +237,7 @@ difft_client = DifftClient(APP_ID, APP_SECRET)
 message = MessageRequestBuilder() \
             .sender("+21112") \
             .to_user(["+70985684427"]) \
-            .card(APPID, "1111", "### header") \
+            .card(APP_ID, "1111", "### header") \
             .timestamp_now() \
             .build()
 difft_client.send_message(message)
@@ -241,11 +245,22 @@ difft_client.send_message(message)
 message_height = MessageRequestBuilder() \
             .sender("+21112") \
             .to_user(["+70985684427"]) \
-            .card(APPID, "1111", "### header", height=60) \
+            .card(APP_ID, "1111", "### header", height=60) \
             .timestamp_now() \
             .build()
 difft_client.send_message(message_height)
+
+# include an image in the markdown
+url = difft_client.upload_pic("./some/path/image.png")
+message_height = MessageRequestBuilder() \
+            .sender("+21112") \
+            .to_user(["+70985684427"]) \
+            .card(APP_ID, "1111", f"Check this out: ![img][{url}]", height=60) \
+            .timestamp_now() \
+            .build()
+difft_client.send_message(message)
 ```
+
 ### Send image
 ```python
 import time
@@ -288,6 +303,7 @@ message = MessageRequestBuilder()                           \
             .build()
 difft_client.send_message(message)
 ```
+
 ### Get Account info
 ```python
 difft_client.get_account_by_email("xxx@xxx")
@@ -397,6 +413,9 @@ python3 -m unittest discover
 ***websocket和callback(webhook)只能二选一***.  
 
 ***if you turn on websocket, then the webhook stop working.***
+
+## 2023.4.26
+1. support [uploadPic](https://documenter.getpostman.com/view/14311359/UVREmkXq#2467a63d-ea08-469c-b202-2b8317cba78d)
 
 ## 2022.4.18
 1. support quote
