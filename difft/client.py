@@ -1,11 +1,14 @@
+import os
 import base64
 import hashlib
 import hmac
 import json
 import logging
+
 import requests
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+
 from difft import constants
 from difft.auth import Authenticator
 
@@ -144,6 +147,46 @@ class DifftClient:
             logging.error(delete_attachment_auth_obj.get("reason"))
             return False
         return True
+
+    def upload_pic(self, picture_path, raw_response=False):
+        """
+        Upload picture so we can refer to it within messages.
+        :param picture_path: any filename
+        :return: online image url
+                 {
+                      "ver": 1,
+                      "status": 0,
+                      "reason": "success",
+                      "data": {
+                        "url": "https://difft-oss.s3.ap-southeast-1.amazonaws.com/50ab44ae13bf26337a1c1d3a0cdcc53c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASJTLN2W46QBZ6M65%2F20221122%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20221122T113605Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=84ee194a240902561a749626d0eaa690cce885e5bc1056fd0ee1a70d8313a35d"
+                      }
+                 }
+        """
+        if not os.path.exists(picture_path):
+            raise Exception("file %s not found" % picture_path)
+
+        filename = os.path.basename(picture_path)
+
+        with open(picture_path, "rb") as fd:
+            content = base64.b64encode(fd.read())
+
+        payload ={
+            'file_name': filename,
+            # make it serializable to json
+            'content': content.decode('utf-8'),
+        }
+        res = requests.post(url=self._host + constants.URL_UPLOAD_PIC, json=payload, auth=self._auth)
+        if res.status_code != 200:
+            raise Exception("failed to upload image, server responded with %d" % res.status_code)
+        envelope = res.json()
+        if envelope.get("status") != 0:
+            raise Exception("pic upload failed", envelope.get("errors"), envelope.get("error"))
+
+        # done managing error cases, send back data
+        if raw_response:
+            return envelope
+        else:
+            return envelope.get("data").get("url")
 
     def send_message(self, msg, raw_response=False):
         """
