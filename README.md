@@ -5,8 +5,7 @@ python requires >= 3.6
 
 ## Interface
 * send_message
-* get_account_by_email
-* get_account_by_wuid
+* get_account
 * get_group_by_botid
 * upload_attachment
 * download_attachment
@@ -306,23 +305,26 @@ difft_client.send_message(message)
 
 ### Get Account info
 ```python
-difft_client.get_account_by_email("xxx@xxx")
+BOT_ID = "your bot id"
+# get account info by email
+param = dict(email="xxx@xxx", operator=BOT_ID)
+difft_client.get_account(param)
 # get multiple account info by email
-difft_client.get_account_by_email("xxx@xxx,xxx@xxx")
+param = dict(email="xxx@xxx,yyy@xxx", operator=BOT_ID)
+difft_client.get_account(param)
 
-
-difft_client.get_account_by_wuid("xxx")
+# get account info by wuid
+param = dict(wuid="xxx", operator=BOT_ID)
+difft_client.get_account(param)
 # get multiple account info by wuid
-difft_client.get_account_by_wuid("xxxx,xxx")
-
-# get account email
-param = dict(wuid="xxx", operator="xxx")
+param = dict(wuid="xxx,yyy", operator=BOT_ID)
 difft_client.get_account(param)
 
 ```
 ### Get Group info
 ```python
-difft_client.get_group_by_botid("xxx")
+BOT_ID = "your bot id"
+difft_client.get_group_by_botid(BOT_ID)
 ```
 ### Callback
 1. https webhook
