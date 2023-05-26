@@ -5,8 +5,7 @@ python requires >= 3.6
 
 ## Interface
 * send_message
-* get_account_by_email
-* get_account_by_wuid
+* get_account
 * get_group_by_botid
 * upload_attachment
 * download_attachment
