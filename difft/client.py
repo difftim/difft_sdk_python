@@ -252,6 +252,23 @@ class DifftClient:
             return resp_obj.get("data").get("groups")
         return []
 
+    def get_group_members(self, botid, gid):
+        """Fetch group members.
+
+        API: https://documenter.getpostman.com/view/14311359/UVREmkXq#8953dbf9-1fb7-486b-81a5-1b58938218d9
+
+        """
+        params = dict(operator=botid, gid=gid)
+        resp = requests.get(url=self._host + constants.URL_GROUP_MEMBERS, params=params, auth=self._auth)
+        if resp.status_code != 200:
+            raise Exception("server response error, code", resp.status_code)
+        resp_obj = json.loads(resp.text)
+        if resp_obj.get("status") != 0:
+            raise Exception(resp_obj.get("reason"))
+        if "members" in resp_obj.get("data"):
+            return resp_obj.get("data").get("members")
+        return []
+
     def encrypt_attachment(self, attachment, key):
         if len(key) != 64:
             raise Exception("got invalid length keys (%d bytes)" % len(key))
