@@ -10,6 +10,7 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 
 from difft import constants
+from difft.utils import parse_response
 from difft.auth import Authenticator
 
 
@@ -252,6 +253,7 @@ class DifftClient:
             return resp_obj.get("data").get("groups")
         return []
 
+    @parse_response
     def get_group_members(self, botid, gid):
         """Fetch group members.
 
@@ -259,15 +261,7 @@ class DifftClient:
 
         """
         params = dict(operator=botid, gid=gid)
-        resp = requests.get(url=self._host + constants.URL_GROUP_MEMBERS, params=params, auth=self._auth)
-        if resp.status_code != 200:
-            raise Exception("server response error, code", resp.status_code)
-        resp_obj = json.loads(resp.text)
-        if resp_obj.get("status") != 0:
-            raise Exception(resp_obj.get("reason"))
-        if "members" in resp_obj.get("data"):
-            return resp_obj.get("data").get("members")
-        return []
+        return requests.get(url=self._host + constants.URL_GROUP_MEMBERS, params=params, auth=self._auth)
 
     def encrypt_attachment(self, attachment, key):
         if len(key) != 64:

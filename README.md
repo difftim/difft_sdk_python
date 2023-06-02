@@ -7,6 +7,7 @@ python requires >= 3.6
 * send_message
 * get_account
 * get_group_by_botid
+* get_group_members
 * upload_attachment
 * download_attachment
 
@@ -331,6 +332,7 @@ difft_client.get_group_by_botid(BOT_ID)
 
 # retrieve group members (the bot must be in it)
 difft_client.get_group_members(BOT_ID, gid='xxx')
+print(data['name'], data['members'])
 ```
 
 ### Callback
