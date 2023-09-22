@@ -7,6 +7,7 @@ python requires >= 3.6
 * send_message
 * get_account
 * get_group_by_botid
+* get_group_members
 * upload_attachment
 * download_attachment
 
@@ -321,11 +322,19 @@ param = dict(wuid="xxx,yyy", operator=BOT_ID)
 difft_client.get_account(param)
 
 ```
+
 ### Get Group info
 ```python
 BOT_ID = "your bot id"
+
+# retrieve groups' info the bot is part of
 difft_client.get_group_by_botid(BOT_ID)
+
+# retrieve group members (the bot must be in it)
+difft_client.get_group_members(BOT_ID, gid='xxx')
+print(data['name'], data['members'])
 ```
+
 ### Callback
 1. https webhook
 2. websocket

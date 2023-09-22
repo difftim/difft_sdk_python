@@ -10,6 +10,7 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 
 from difft import constants
+from difft.utils import parse_response
 from difft.auth import Authenticator
 
 
@@ -251,6 +252,16 @@ class DifftClient:
         if "groups" in resp_obj.get("data"):
             return resp_obj.get("data").get("groups")
         return []
+
+    @parse_response
+    def get_group_members(self, botid, gid):
+        """Fetch group members.
+
+        API: https://documenter.getpostman.com/view/14311359/UVREmkXq#8953dbf9-1fb7-486b-81a5-1b58938218d9
+
+        """
+        params = dict(operator=botid, gid=gid)
+        return requests.get(url=self._host + constants.URL_GROUP_MEMBERS, params=params, auth=self._auth)
 
     def encrypt_attachment(self, attachment, key):
         if len(key) != 64:
