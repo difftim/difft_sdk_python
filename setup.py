@@ -5,9 +5,9 @@ from setuptools import setup
 with open('VERSION') as f:
       version = str(f.read())
 
-setup(name='difft',
+setup(name='difftcc',
       version=version,
-      description='Python Distribution Utilities',
+      description='Difft Openapi For CC',
       author='difft.org',
       author_email='teams@difft.org',
       url='',

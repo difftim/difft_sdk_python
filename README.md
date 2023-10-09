@@ -58,7 +58,7 @@ difft-cli sendcard -user +76459652574 -id 1111 -content "### Hello" -creator +76
 
 ## Install from python package
 ```shell
-pip install difft
+pip install difftcc
 ```
 
 ## Install from source code
